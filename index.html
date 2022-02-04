@@ -49,47 +49,47 @@
         const starships = await getItems("starships");
 
         const newFilms = films.map(film => {
-          const newCharacters = film.fields.characters.map(pk => people.find(person => person.pk === pk).id);
-          const newVehicles = film.fields.vehicles.map(pk => vehicles.find(vehicle => vehicle.pk === pk).id);
-          const newStarships = film.fields.starships.map(pk => starships.find(starship => starship.pk === pk).id);
-          const newPlanets = film.fields.planets.map(pk => planets.find(planet => planet.pk === pk).id);
-          const newSpecies = film.fields.species.map(pk => species.find(speciesItem => speciesItem.pk === pk).id);
+          const newCharacterIds = film.fields.characters.map(pk => people.find(person => person.pk === pk).id);
+          const newVehicleIds = film.fields.vehicles.map(pk => vehicles.find(vehicle => vehicle.pk === pk).id);
+          const newStarshipIds = film.fields.starships.map(pk => starships.find(starship => starship.pk === pk).id);
+          const newPlanetIds = film.fields.planets.map(pk => planets.find(planet => planet.pk === pk).id);
+          const newSpeciesIds = film.fields.species.map(pk => species.find(speciesItem => speciesItem.pk === pk).id);
 
           return {
             ...film,
             fields: {
               ...film.fields,
-              characters: newCharacters,
-              vehicles: newVehicles,
-              starships: newStarships,
-              planets: newPlanets,
-              species: newSpecies,
+              characters: newCharacterIds,
+              vehicles: newVehicleIds,
+              starships: newStarshipIds,
+              planets: newPlanetIds,
+              species: newSpeciesIds,
             },
           };
         });
 
         const newSpecies = species.map(specieItem => {
-          const newPeople = specieItem.fields.people.map(pk => people.find(person => person.pk === pk).id);
-          const newPlanet = planets.find(planet => planet.pk === specieItem.fields.homeworld)?.id ?? "n/a";
+          const newPeopleIds = specieItem.fields.people.map(pk => people.find(person => person.pk === pk).id);
+          const newHomeWorldId = planets.find(planet => planet.pk === specieItem.fields.homeworld)?.id ?? "n/a";
 
           return {
             ...specieItem,
             fields: {
               ...specieItem.fields,
-              people: newPeople,
-              homeworld: newPlanet,
+              people: newPeopleIds,
+              homeworld: newHomeWorldId,
             },
           };
         });
 
         const newPeople = people.map(person => {
-          const newPlanet = planets.find(planet => planet.pk === person.fields.homeworld).id;
+          const newHomeWorldId = planets.find(planet => planet.pk === person.fields.homeworld).id;
 
           return {
             ...person,
             fields: {
               ...person.fields,
-              homeworld: newPlanet || null,
+              homeworld: newHomeWorldId || null,
             },
           };
         });
